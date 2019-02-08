@@ -5,7 +5,11 @@
   "main": "index.html",
   "scripts": {
     "start": "parcel index.html --open",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html",
+    "build:chrome": "npm run build:chrome:js && npm run build:chrome:css && npm run build:chrome:manifest",
+    "build:chrome:js": "parcel build src/index.js -d dist/ext/chrome --out-file index.js",
+    "build:chrome:css": "parcel build src/styles.css -d dist/ext/chrome --out-file styles.css",
+    "build:chrome:manifest": "npx shx cp ext/chrome/manifest.json dist/ext/chrome"
   },
   "dependencies": {
     "react": "16.8.0-alpha.1",
@@ -17,6 +21,7 @@
     "@types/react": "16.7.18",
     "@types/react-dom": "16.0.11",
     "@types/smart-truncate": "latest",
+    "babel-preset-env": "^1.7.0",
     "parcel-bundler": "^1.6.1"
   },
   "keywords": []

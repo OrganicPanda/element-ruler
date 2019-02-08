@@ -1,0 +1,14 @@
+{
+  "name": "Element Ruler",
+  "version": "1.0",
+  "description": "Measure distances between elements",
+  "manifest_version": 2,
+  "permissions": ["activeTab"],
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "css": ["styles.css"],
+      "js": ["index.js"]
+    }
+  ]
+}
