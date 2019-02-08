@@ -1,0 +1,225 @@
+.el-ruler-ext {
+  --max-z: 2147483647;
+  --ruler-z: calc(var(--max-z) - 1);
+  --toolbar-z: calc(var(--max-z) - 2);
+  --box-z: calc(var(--max-z) - 3);
+  --inspector-z: calc(var(--max-z) - 4);
+  --toolbar-background-color: #bada55;
+  --hovered-el-color: red;
+  --selected-el-color: green;
+  --ruler-color: orange;
+  --ruler-text-color: white;
+  --ruler-thickness: 1px;
+  --ruler-arrow-size: 8px;
+}
+
+.el-ruler-ext *,
+.el-ruler-ext *::before,
+.el-ruler-ext *::after {
+  box-sizing: border-box;
+}
+
+.toolbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--toolbar-background-color);
+  margin: 0;
+  z-index: var(--toolbar-z);
+}
+
+.toolbar-details {
+  display: flex;
+}
+
+.toolbar-details-item {
+  width: 50%;
+}
+
+.toolbar-details-item-title {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1;
+}
+
+.toolbar-details-hovered-item .toolbar-details-item-title {
+  background-color: var(--hovered-el-color);
+}
+
+.toolbar-details-selected-item .toolbar-details-item-title {
+  background-color: var(--selected-el-color);
+}
+
+.toolbar-details-item-position {
+  max-height: 200px;
+  overflow: auto;
+  background: white;
+  margin: 0;
+}
+
+.inspector {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  z-index: var(--inspector-z);
+  pointer-events: none;
+}
+
+.ruler {
+  position: absolute;
+  z-index: var(--ruler-z);
+  pointer-events: none;
+  border-style: solid;
+  border-color: var(--ruler-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--ruler-arrow-size);
+}
+
+.ruler-x {
+  border-width: var(--ruler-thickness) 0 0 0;
+}
+
+.ruler-y {
+  border-width: 0 0 0 var(--ruler-thickness);
+}
+
+.ruler-x::before,
+.ruler-x::after,
+.ruler-y::before,
+.ruler-y::after {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-color: transparent;
+  border-width: var(--ruler-arrow-size);
+}
+
+.ruler-x::before {
+  top: 0;
+  left: 0;
+  border-right-color: var(--ruler-color);
+  transform: translate(-50%, -50%);
+}
+
+.ruler-x::after {
+  top: 0;
+  right: 0;
+  border-left-color: var(--ruler-color);
+  transform: translate(50%, -50%);
+}
+
+.ruler-y::before {
+  top: 0;
+  left: 0;
+  border-bottom-color: var(--ruler-color);
+  transform: translate(-50%, -50%);
+}
+
+.ruler-y::after {
+  bottom: 0;
+  left: 0;
+  border-top-color: var(--ruler-color);
+  transform: translate(-50%, 50%);
+}
+
+.ruler-text {
+  font-family: "Courier New", Courier, "Lucida Sans Typewriter",
+    "Lucida Typewriter", monospace;
+  font-size: 12px;
+  padding: 0.5em;
+  background-color: var(--ruler-color);
+  color: var(--ruler-text-color);
+}
+
+.box {
+  position: absolute;
+  z-index: var(--box-z);
+  pointer-events: none;
+}
+
+.box-hovered {
+  box-shadow: 0px 0px 0px 1px var(--hovered-el-color) inset;
+}
+
+.box-selected {
+  box-shadow: 0px 0px 0px 1px var(--selected-el-color) inset;
+}
+
+.box-selected::before {
+  position: absolute;
+  width: 100%;
+  top: -100vh;
+  height: 200vh;
+  border-style: dashed;
+  border-width: 0 1px 0 1px;
+  border-color: var(--selected-el-color);
+  content: "";
+}
+
+.box-selected::after {
+  position: absolute;
+  width: 200vw;
+  left: -100vw;
+  height: 100%;
+  border-style: dashed;
+  border-width: 1px 0 1px 0;
+  border-color: var(--selected-el-color);
+  content: "";
+}
+
+.demo-1-container {
+  background: #cec;
+  height: 50vh;
+  position: relative;
+}
+
+.demo-1-box {
+  position: absolute;
+  background: hotpink;
+  height: 20%;
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.demo-1-selected {
+  top: 40%;
+  left: 35%;
+  width: 30%;
+}
+.demo-1-A-C {
+  top: 10%;
+  left: 10%;
+}
+.demo-1-B-C {
+  bottom: 10%;
+  left: 10%;
+}
+.demo-1-E-A-F {
+  top: 10%;
+  left: 40%;
+}
+.demo-1-E-B-F {
+  bottom: 10%;
+  left: 40%;
+}
+.demo-1-D-A {
+  top: 10%;
+  right: 10%;
+}
+.demo-1-D-B {
+  bottom: 10%;
+  right: 10%;
+}
