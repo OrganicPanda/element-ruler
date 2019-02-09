@@ -12,8 +12,9 @@
     "build:chrome:manifest": "npx shx cp ext/chrome/manifest.json dist/ext/chrome"
   },
   "dependencies": {
-    "react": "16.8.0-alpha.1",
-    "react-dom": "16.8.0-alpha.1",
+    "react": "16.8.1",
+    "react-dom": "16.8.1",
+    "react-key-handler": "1.2.0-beta.3",
     "smart-truncate": "1.0.1"
   },
   "devDependencies": {

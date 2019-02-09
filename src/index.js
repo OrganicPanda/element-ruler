@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import KeyHandler, { KEYPRESS } from "react-key-handler";
 import {
   useMousePos,
   useWindowScrollPos,
@@ -39,31 +40,53 @@ const Inspector = ({ hovered, selected }) => {
     hasHoveredAndSelected && hovered.el === selected.el;
 
   return (
-    <>
-      <div className="inspector">
-        {hasHovered && <Box variant={"hovered"} box={hovered.box} />}
-        {hasSelected && <Box variant={"selected"} box={selected.box} />}
-        {hasHoveredAndSelected && (
-          <Rulers fromBox={selected.box} toBox={hovered.box} />
-        )}
-      </div>
-    </>
+    <div className="inspector">
+      {hasHovered && <Box variant={"hovered"} box={hovered.box} />}
+      {hasSelected && <Box variant={"selected"} box={selected.box} />}
+      {hasHoveredAndSelected && (
+        <Rulers fromBox={selected.box} toBox={hovered.box} />
+      )}
+    </div>
   );
 };
 
 export default function App() {
   const [enabled, setEnabled] = useState(true);
-  const hovered = useHoveredElementPosition();
+  const [debug, setDebug] = useState(false);
+  const elRef = useRef(null);
+  const hovered = useHoveredElementPosition(elRef.current);
   const selected = useSelectedElementPosition(hovered);
 
   return (
-    <div className="el-ruler-ext">
-      <Toolbar
-        enabled={enabled}
-        setEnabled={setEnabled}
-        hovered={hovered}
-        selected={selected}
+    <div ref={elRef} className="el-ruler-ext">
+      <KeyHandler
+        keyEventName={KEYPRESS}
+        keyValue="r"
+        onKeyHandle={e => {
+          if (e.repeat) return;
+
+          setEnabled(!enabled);
+        }}
       />
+
+      <KeyHandler
+        keyEventName={KEYPRESS}
+        keyValue="d"
+        onKeyHandle={e => {
+          if (e.repeat) return;
+
+          setDebug(!debug);
+        }}
+      />
+
+      {enabled && debug && (
+        <Toolbar
+          enabled={enabled}
+          setEnabled={setEnabled}
+          hovered={hovered}
+          selected={selected}
+        />
+      )}
       {enabled && <Inspector hovered={hovered} selected={selected} />}
     </div>
   );

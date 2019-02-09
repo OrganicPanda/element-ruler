@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { box } from "./util";
 
 export const useMousePos = () => {
@@ -43,19 +43,25 @@ export const useWindowScrollPos = () => {
   return pos;
 };
 
-export const useHoveredElement = () => {
+const closestEl = (x, y, excluded) => {
+  return document
+    .elementsFromPoint(x, y)
+    .filter(el => el !== excluded && !excluded.contains(el))[0];
+};
+
+export const useHoveredElement = excluded => {
   const mousePos = useMousePos();
   // Don't need the result, just need to trigger the calculation again on scroll
   const windowScrollPos = useWindowScrollPos();
 
   return {
     mousePos,
-    el: mousePos ? document.elementFromPoint(mousePos.x, mousePos.y) : null
+    el: mousePos ? closestEl(mousePos.x, mousePos.y, excluded) : null
   };
 };
 
-export const useHoveredElementPosition = () => {
-  const { mousePos, el } = useHoveredElement();
+export const useHoveredElementPosition = excluded => {
+  const { mousePos, el } = useHoveredElement(excluded);
 
   return {
     mousePos,
