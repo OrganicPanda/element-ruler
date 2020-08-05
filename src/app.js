@@ -3,11 +3,9 @@ import ReactDOM from "react-dom";
 import { useState, useRef } from "react";
 import KeyHandler, { KEYPRESS } from "react-key-handler";
 import {
-  useMousePos,
-  useWindowScrollPos,
   useHoveredElement,
-  useHoveredElementPosition,
-  useSelectedElementPosition
+  useSelectedElement,
+  useElementPosition
 } from "./hooks";
 import { Toolbar } from "./toolbar";
 import { Rulers } from "./ruler";
@@ -54,8 +52,10 @@ export const App = () => {
   const [enabled, setEnabled] = useState(true);
   const [debug, setDebug] = useState(false);
   const elRef = useRef(null);
-  const hovered = useHoveredElementPosition(elRef.current);
-  const selected = useSelectedElementPosition(hovered);
+  const hovered = useHoveredElement(elRef.current);
+  const hoveredPosition = useElementPosition(hovered);
+  const selected = useSelectedElement(hovered);
+  const selectedPosition = useElementPosition(selected);
 
   return (
     <div ref={elRef} className="el-ruler-ext">
@@ -87,7 +87,9 @@ export const App = () => {
           selected={selected}
         />
       )}
-      {enabled && <Inspector hovered={hovered} selected={selected} />}
+      {enabled && (
+        <Inspector hovered={hoveredPosition} selected={selectedPosition} />
+      )}
     </div>
   );
 };

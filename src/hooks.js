@@ -60,8 +60,10 @@ export const useHoveredElement = excluded => {
   };
 };
 
-export const useHoveredElementPosition = excluded => {
-  const { mousePos, el } = useHoveredElement(excluded);
+export const useElementPosition = element => {
+  if (!element) return null;
+
+  const { mousePos, el } = element;
 
   return {
     mousePos,
@@ -70,7 +72,7 @@ export const useHoveredElementPosition = excluded => {
   };
 };
 
-export const useSelectedElementPosition = hovered => {
+export const useSelectedElement = hovered => {
   const [selected, setSelected] = useState(null);
 
   function handleClick() {
